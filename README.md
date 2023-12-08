@@ -1,18 +1,60 @@
+# Loja de Pokemons
 
+Projeto ainda em construção.
 
-# Getting Started with Create React App
+## Visão Geral
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Essa aplicação apresenta uma página de venda de cartas de Pokémons.
 
-## Available Scripts
+## Tecnologias Utilizadas
 
-In the project directory, you can run:
+- HTML5
+- CSS
+- JavaScript
+- React
+- Axios
 
-### `npm start`
+## Funcionalidades Principais
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+1. **Página Home:** Apresentação das Cartas.
+2. **Feedback de Sucesso ou Erro:** Popups de confirmação.
+3. **Filtro de Produtos:** Busca por nome.
+4. **Cart:** Produtos no carrinho e finalização de compra.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Próximos Passos
 
+- Página de Detalhes
+- Autenticação de usuário
+- Ordenação por diferentes categorias
+- Exclusão no Cart
+- Checkout
+- Videos (Youtube)
+- Layout de Promoções e Combos
+- Flags de características
+- Página Mundo Pokémon: Detalhes, histórias, dicas e mais.
+- Menu
+
+## Instalação e Uso
+
+1. **Clone o Repositório**
+   git clone https://github.com/santanawesley/store-pokemon.git
+
+2. Acesse o Diretório
+   cd store-pokemon
+
+3. Instale as Dependências
+   npm install
+
+4. Inicie o Servidor de Desenvolvimento
+   npm start
+
+5. Visualize no Navegador
+   O projeto estará disponível em http://localhost:3000.
+
+Comandos Disponíveis:<br/>
+npm start: Inicia o servidor de desenvolvimento.<br/>
+npm run build: Cria uma versão de produção do projeto.
+
+## Autor
+
+Wesley R. de Santana - wesley0807@gmail.com
