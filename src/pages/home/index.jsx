@@ -1,12 +1,19 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 import axios from "axios";
+
 import baseApi from "../../services/api";
 import ModalConfirmation from "../../components/modal";
 import iconShoppingCart from "../../assets/icon_shopping_cart.svg";
 import iconClose from "../../assets/icon_close.svg";
+import iconInfo from "../../assets/more-info-icon.svg";
+import iconArrowNext from "../../assets/next-icon.svg";
+import iconArrowPrevious from "../../assets/previous-icon.svg";
 import "./index.css";
 
 const Home = () => {
+	const navigate = useNavigate();
+
   const [listPokemon, setListPokemon] = useState([]);
   const [urlsAllPokemon, setUrlsAllPokemon] = useState([]);
 
@@ -22,7 +29,18 @@ const Home = () => {
   const [showCart, setShowCart] = useState(false);
 
   useEffect(() => {
+    const getPokemons = async () => {
+      try {
+        const response = await baseApi.get("/pokemon");
+        const pages = Math.ceil(response?.data ? response?.data?.count/20 : 0);
+        setNumberOfPages(pages);
+        _getPokemonsDetails(response?.data);
+      } catch (e){ 
+        console.log('Apresentar a tratativa do seguinte erro = ', e.message)
+      }
+    }
     getPokemons();
+  
     const pokemonStorage = localStorage.getItem("pokemonCart");
     pokemonStorage && setPokemonCart(JSON.parse(pokemonStorage));
 
@@ -31,14 +49,8 @@ const Home = () => {
       setUrlsAllPokemon(reponseAllPokemons.data.results)
     }
     getUrlsAllPokemons();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const getPokemons = async () => {
-    const response = await baseApi.get("/pokemon");
-    const pages = Math.ceil(response?.data ? response?.data?.count/20 : 0);
-    setNumberOfPages(pages);
-    _getPokemonsDetails(response?.data);
-  }
 
   const _getPokemonsDetails = (data, origin) => {
     const urls = (origin === "search" ? data : data?.results).map(item => {
@@ -46,7 +58,6 @@ const Home = () => {
     })
     urls && axios.all(urls).then(responses => {
       const listPokemonsWithPrice = responses.map(item => {
-        const price = _generatePrice(50, 500);
         item.data.price = _generatePrice(50, 500)
         return item;
       })
@@ -81,7 +92,7 @@ const Home = () => {
   const finalizePurchase = () => {
     setPokemonCart([]);
     localStorage.removeItem("pokemonCart");
-    toogleModal("Parabéns!", "Pokém adquirido.");
+    toogleModal("Parabéns!", "Pokémon adquirido.");
   }
 
   const toogleModal = (title, description) => {
@@ -146,16 +157,22 @@ const Home = () => {
       wantedPokemon.length ? wantedPokemon : listPokemon).map((pokemon, index) => {
         return (
           <div className="item-pokemon" key={index}>
-            <a onClick={() => addCart(pokemon)}>
-              <img
-                src={pokemon?.data?.sprites?.front_default}
-                onMouseOver={(e) => toogleImage(e, pokemon, "over")}
-                onMouseLeave={(e) => toogleImage(e, pokemon, "leave")}
-                alt={`Imagem Pokémon ${pokemon?.data?.name}`}
-              /><br/>
-              <span className="name">{pokemon?.data?.name}</span><br/>
-              <span className="value">R$ {pokemon?.data.price}</span>
-            </a>
+            <div onClick={() => navigate(`/produto/${pokemon.data.name}`)} className="info-card">
+                <img
+                  src={iconInfo}
+                  className="icon-more-info"
+                  alt='Mais informações'
+                />
+                <img
+                  src={pokemon?.data?.sprites?.front_default}
+                  onMouseOver={(e) => toogleImage(e, pokemon, "over")}
+                  onMouseLeave={(e) => toogleImage(e, pokemon, "leave")}
+                  alt={`Imagem Pokémon ${pokemon?.data?.name}`}
+                /><br/>
+                <span className="name">{pokemon?.data?.name}</span><br/>
+                <span className="value">R$ {pokemon?.data.price}</span><br/>
+            </div>
+            <button onClick={() => addCart(pokemon)}>Adquirir</button>
           </div>
         )
       }
@@ -193,9 +210,9 @@ const Home = () => {
                 Limpar pesquisa
               </button>
           </form>
-          <a onClick={() => toogleCart("open")} className="shopping-cart">
+          <div onClick={() => toogleCart("open")} className="shopping-cart">
             <img src={iconShoppingCart} alt="Carrinho de compras"/>
-          </a>
+          </div>
         </div>
       </header>
       <main>
@@ -211,10 +228,10 @@ const Home = () => {
             <div className="info-cart">
               <p className="title-cart">
                 Carrinho 
-                <a className="close-cart" onClick={() => toogleCart("close")}>
-                  <img src={iconClose} className="icon-close"/>
-                </a>
               </p>
+              <div className="close-cart" onClick={() => toogleCart("close")}>
+                <img src={iconClose} className="icon-close" alt="Fechar Carrinho"/>
+              </div>
               <div className="product-cart">
                 {pokemonCart?.map((product, index) => {
                   return (
@@ -245,9 +262,21 @@ const Home = () => {
       {!wantedPokemon.length && 
         <div className="pagination">
           <div className="footer">
-            <a onClick={() => changePage("previous")} className={urlPreviousPage ? "" : "link-disabled"} >Página anterior</a>
-            <span className="number-of-pages">{`${currentPage}/${numberOfPages}`}</span>
-            <a onClick={() => changePage("next")} className={urlNextPage ? "" : "link-disabled"}>Próxima página</a>
+            {urlPreviousPage && <img
+              onClick={() => changePage("previous")}
+              src={iconArrowPrevious}
+              alt="Página Anterior"
+              className="link-pagination"
+            /> }
+            <span className="number-of-pages">
+              <span className="actual-page">{currentPage}</span>/{numberOfPages}
+            </span>
+            {urlNextPage && <img
+              onClick={() => changePage("next")}
+              src={iconArrowNext}
+              alt="Próxima Página"
+              className="link-pagination"
+            />}
           </div>
         </div>
       }

@@ -35,6 +35,10 @@ header p {
   margin: 0;
 }
 
+button {
+  cursor: pointer;
+}
+
 .header-content {
   max-width: 900px;
   display: flex;
@@ -153,15 +157,25 @@ main {
 
 .item-pokemon {
   border: 1px solid #808080;
-  cursor: pointer;
   text-align: center;
   padding: 8px;
   background-color: #c4c4c4;
   border-radius: 5%;
+  position: relative;
 }
 
 .item-pokemon:hover {
   background-color: #008000;
+}
+
+.icon-more-info {
+  position: absolute;
+  width: 20px;
+  right: 5px;
+}
+
+.info-card {
+  cursor: pointer;
 }
 
 .name {
@@ -204,13 +218,24 @@ main {
 }
 
 .number-of-pages {
-  margin: 10px;
+  margin: 10px 15px;
 }
 
-.link-disabled {
-  pointer-events: none;
-  cursor: default;
-  color: #808080;
+.link-pagination {
+  width: 30px;
+  cursor: pointer;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.actual-page {
+  font-size: 30px;
+  font-weight: bold;
+  color: #1e2b4b;
 }
 
 @media (max-width: 1023px) {
@@ -220,6 +245,7 @@ main {
 
   .shopping-cart {
     display: block;
+    cursor: pointer;
   }
 
   main {

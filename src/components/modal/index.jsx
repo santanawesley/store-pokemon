@@ -5,7 +5,7 @@ const ModalConfirmation = (props) => {
   return (
     <div className="modal-confirmation" id="modal">
       <div className="content-modal">
-        <a onClick={() => props.closeModal()} className="close-modal">X</a>
+        <div onClick={() => props.closeModal()} className="close-modal">X</div>
         <p className="title-modal">{props.title}</p>
         <p>{props.description}</p>
       </div>

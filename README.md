@@ -17,9 +17,10 @@ Essa aplicação apresenta uma página de venda de cartas de Pokémons.
 ## Funcionalidades Principais
 
 1. **Página Home:** Apresentação das Cartas.
-2. **Feedback de Sucesso ou Erro:** Popups de confirmação.
-3. **Filtro de Produtos:** Busca por nome.
-4. **Cart:** Produtos no carrinho e finalização de compra.
+2. **Página Detalhes:** Em construção.
+3. **Feedback de Sucesso ou Erro:** Popups de confirmação.
+4. **Filtro de Produtos:** Busca por nome.
+5. **Cart:** Produtos no carrinho e finalização de compra.
 
 ## Próximos Passos
 
